@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import logo from '../assets/logo.svg';
+import '../assets/styles/toolbar.css';
 
 export default class Toolbar extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   newNote = () => {
     console.log('new note')
@@ -21,7 +20,7 @@ export default class Toolbar extends Component {
     return (
       <div className="toolbar">
         <i className="glyphicon logo">
-          <img src="../assets/logo.svg" alt="logo" width="30" height="30" />
+          <img src={logo} alt="logo" width="30" height="30" />
         </i>
         <i onClick={this.newNote} className="glyphicon glyphicon-plus"></i>
         <i onClick={this.toggleFavorite} className="glyphicon glyphicon-star"></i>

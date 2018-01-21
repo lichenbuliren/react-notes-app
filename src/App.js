@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import logo from './assets/logo.svg';
 import './App.css';
 
-import Toolbar from './components/Toolbar'
-import NoteList from './components/NoteList'
-import Editor from './components/Editor'
+import { Toolbar, NoteList, Editor }  from './components/'
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.init()
+  }
+
+  init() {
+    console.log('app init')
+  }
+
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <Toolbar />
         <NoteList />
         <Editor />
