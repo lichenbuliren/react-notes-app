@@ -1,22 +1,35 @@
-.toolbar{
-  width: 80px;
-  background-color: #30414D;
-  color: #767676;
-  padding: 35px 25px 25px 25px;
+.note-editor {
+  flex:2;
 }
 
-.starred {
-  color: #F7AE4F;
+.note-editor textarea {
+  box-sizing: border-box;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  padding-top: 15px;
 }
 
-.toolbar i {
-  font-size: 30px;
-  margin-bottom: 35px;
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.5s ease;
+.form-group {
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 0;
+  height: 100%;
+  align-items: center;
 }
 
-.toolbar i:hover{
-  opacity: 1;
+.form-group textarea {
+  height: 30%;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+.form-group .btn {
+  width: 30%;
+  margin-right: 20px;
+  align-self: flex-end;
+}
+
+.title {
+  border:0;
 }

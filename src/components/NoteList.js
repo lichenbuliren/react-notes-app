@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { VisibilityFilters } from '../store/actionTypes'
+
 import '../assets/styles/notelist.css';
 
 export default class NoteList extends Component {
@@ -38,13 +40,11 @@ export default class NoteList extends Component {
           <div className="btn-group btn-group-justified" role="group">
             <div className="btn-group" role="group">
               <button type="button"
-                onClick={this.showAll}
-                className={'btn btn-default ' + (this.state.showType === 'all' ? 'active' : '')}>All Notes</button>
+                className={'btn btn-default ' + (this.props.filterType === VisibilityFilters.SHOW_ALL ? 'active' : '')}>All Notes</button>
             </div>
             <div className="btn-group" role="group">
               <button type="button"
-                onClick={this.showFavorite}
-                className={'btn btn-default ' + (this.state.showType === 'favorite' ? 'active' : '')}>Favorites</button>
+                className={'btn btn-default ' + (this.props.filterType === VisibilityFilters.SHOW_FAVORITE ? 'active' : '')}>Favorites</button>
             </div>
           </div>
           <div className="btn-group btn-group-justified" role="group">
@@ -58,9 +58,9 @@ export default class NoteList extends Component {
         </div>
         <div className="container">
           <div className="list-group">
-            {this.state.searchNotes.map(note => 
+            {this.props.notes.map(note => 
               <div key={note.id}
-                className={'this-group-item ' + this.state.activeNote === note ? 'active' : ''}
+                className={'list-group-item ' + (this.props.activeNote.id === note.id ? 'active' : '')}
                 onClick={this.updateActiveNote(note)}>
                 <h4 className="list-group-item-heading">
                   {note.title.trim()}

@@ -1,9 +1,17 @@
 import * as actionType from './actionTypes'
+import { VisibilityFilters } from './actionTypes';
 
-const addNote = (note = { title: '', content: ''}) => {
+const addNote = (note = { title: '', content: '', id: +new Date(), favorite: false }) => {
   return {
     note,
     type: actionType.ADD_NOTE
+  }
+}
+
+const newNote = (note = { id: +new Date() }) => {
+  return {
+    note,
+    type: actionType.NEW_NOTE
   }
 }
 
@@ -28,7 +36,7 @@ const toggleFavorite = (id) => {
   }
 }
 
-const filterList = (filterType) => {
+const filterList = (filterType = VisibilityFilters.ALL) => {
   return {
     type: actionType.FILTER_LIST,
     filterType
@@ -36,5 +44,10 @@ const filterList = (filterType) => {
 }
 
 export {
-  addNote
+  addNote,
+  newNote,
+  updateNote,
+  deleteNote,
+  toggleFavorite,
+  filterList
 }
