@@ -29,17 +29,24 @@ const deleteNote = (id) => {
   }
 }
 
-const toggleFavorite = (id) => {
+const toggleFavorite = note => {
   return {
     type: actionType.TOGGLE_FAVORITE,
-    id
+    note
   }
 }
 
-const filterList = (filterType = VisibilityFilters.ALL) => {
+const toggleFilterType = (filterType = VisibilityFilters.ALL) => {
   return {
-    type: actionType.FILTER_LIST,
+    type: actionType.TOGGLE_FILTERTYPE,
     filterType
+  }
+}
+
+const searchNotes = (search = '') => {
+  return {
+    type: actionType.SEARCH_NOTES,
+    search
   }
 }
 
@@ -48,6 +55,7 @@ export {
   newNote,
   updateNote,
   deleteNote,
+  searchNotes,
   toggleFavorite,
-  filterList
+  toggleFilterType
 }

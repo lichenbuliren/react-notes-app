@@ -1,113 +1,91 @@
-import { combineReducers } from 'redux'
-import { VisibilityFilters, ADD_NOTE, DELETE_NOTE, TOGGLE_FAVORITE, UPDATE_NOTE, FILTER_LIST, NEW_NOTE } from './actionTypes';
+import {
+  VisibilityFilters,
+  ADD_NOTE,
+  DELETE_NOTE,
+  TOGGLE_FAVORITE,
+  UPDATE_NOTE,
+  TOGGLE_FILTERTYPE,
+  NEW_NOTE
+} from './actionTypes';
 
-export const noteReducer = (state = [], action) => {
+const initState = {
+  notes: [],
+  filterType: VisibilityFilters.SHOW_ALL,
+  activeNote: {}
+};
+
+const delArrayEl = (arr, index) => [...arr.slice(0, index), ...arr.slice(index + 1, arr.length)];
+
+const noteReducer = (state = initState, action) => {
   switch (action.type) {
     case ADD_NOTE:
-      return [...state, {
-        id: +new Date(),
-        favorite: false,
-        title: action.note.title,
-        content: action.note.content
-      }]
-      break;
+      const newNote = action.note;
+      return {
+        ...state,
+        ...{
+          activeNote: {...newNote},
+          notes: [...state.notes, newNote]
+        }
+      };
     case DELETE_NOTE:
-      const delIndex = state.find(note => note.id === action.id)
-      return [
-        ...state.slice(0, delIndex),
-        ...state.slice(delIndex + 1, state.length - 1)
-      ]
-      break;
+      const delIndex = state.notes.find(note => note.id === action.id);
+      const newNotes = delArrayEl(state.notes, delIndex);
+      return {
+        ...state,
+        ...{
+          notes: [...newNotes],
+          activeNote: {...newNotes[0]}
+        }
+      };
     case TOGGLE_FAVORITE:
-      let list = state.map(note => {
-        if (note.id === action.id) {
-          note.favorite = !note.favorite
+      state.notes.map(note => {
+        if (note.id === state.activeNote.id) {
+          note.favorite = !note.favorite;
         }
         return note;
       })
-      return [
-        ...state.map(note => {
-          if (note.id === action.id) {
-            note.favorite = !note.favorite
+      return {
+        ...state,
+        ...{
+          activeNote: {
+            ...state.activeNote,
+            ...{ favorite: !state.activeNote.favorite }
           }
-          return note
-        })
-      ]
-      break;
+        }
+      };
     case UPDATE_NOTE:
-      return [
-        ...state.map(note => {
-          if (note.id === action.note.id) {
-            note = action.note
-          }
-          return note
-        })
-      ]
-      break;
-    default:
-      break;
-  }
-  return state;
-}
-
-export const filterReducer = (state = VisibilityFilters.SHOW_ALL, action) => {
-  switch (action.type) {
-    case FILTER_LIST:
+      return {
+        ...state,
+        ...{
+          notes: [
+            ...state.notes.map(note => {
+              if (note.id === action.note.id) {
+                note = action.note;
+              }
+              return note;
+            })
+          ],
+          activeNote: action.note
+        }
+      };
+    case NEW_NOTE:
+      return {
+        ...state,
+        ...{
+          activeNote: action.note
+        }
+      };
+    case TOGGLE_FILTERTYPE:
       return {
         ...state,
         ...{
           filterType: action.filterType
         }
       }
-      break;
     default:
-      return state
       break;
   }
-}
+  return state;
+};
 
-export const activeNoteReducer = (state = { id: +new Date(), favorite: false, title: '', content: ''}, action) => {
-  switch (action.type) {
-    case UPDATE_NOTE:
-      return {
-        ...state,
-        ...action.note
-      }
-      break;
-    case NEW_NOTE:
-      return {
-        ...state,
-        ...{
-          id: +new Date(),
-          title: '',
-          content: '',
-          favorite: false
-        }
-      }
-      break;
-    case ADD_NOTE:
-      return {
-        ...state,
-        ...action.note
-      }
-      break;
-    case TOGGLE_FAVORITE:
-      return {
-        ...state,
-        ...{
-          favorite: !state.favorite
-        }
-      }
-      break;
-    default:
-      return state
-      break;
-  }
-}
-
-
-export const reducers = combineReducers({
-  filterType: filterReducer,
-  notes: noteReducer,
-  activeNote: activeNoteReducer
-})
+export default noteReducer;
